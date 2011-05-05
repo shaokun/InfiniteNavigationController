@@ -1,0 +1,15 @@
+## Xcode 3 Noise
+
+build/*
+*.pbxuser
+*.mode1v3
+MyTable.xcodeproj/.dat*.*
+
+## Xcode 4 Noise
+
+MyTable.xcodeproj/project.xcworkspace/
+MyTable.xcodeproj/xcuserdata/
+
+## OS X Noise
+.DS_Store
+profile
