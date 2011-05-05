@@ -10,6 +10,7 @@
     
     if (self) {
         self.url = aUrl;
+        self.resultArray = [NSMutableArray array];
         queue = [[NSOperationQueue alloc] init];
     }
     
@@ -27,34 +28,29 @@
     [super dealloc];
 }
 
-- (void)_parse:(id)object {
+- (void)_parse {
+//    if (self.operation.isCancelled) return;
+    
+    [self.resultArray removeAllObjects];
+    
     NSData *data = [[NSData alloc] initWithContentsOfURL:self.url];
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-    NSMutableArray *array = [NSMutableArray new];
-    parser.delegate = self;
-    
+    parser.delegate = self;    
     self.xmlParser = parser;
-    self.resultArray = array;
-
-    NSInvocationOperation *operation = (NSInvocationOperation *)object;
-    
-//    sleep(2);
-
-    if (!operation.isCancelled) {
-        [self.xmlParser parse];
-    }
     
     [data release];
     [parser release];
-    [array release];
+
+    sleep(2);
+
+//    if (self.operation.isCancelled) return;
+    [self.xmlParser parse];
 }
 
 - (void)parse {
-    NSInvocationOperation *op = [NSInvocationOperation alloc];
-    op = [op initWithTarget:self selector:@selector(_parse:) object:op];
-    [queue addOperation:op];
-    
-    [op release];
+    NSInvocationOperation *operation = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_parse) object:nil] autorelease];
+
+    [queue addOperation:operation];
 }
 
 - (void)cancel {

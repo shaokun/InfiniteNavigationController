@@ -23,9 +23,9 @@
 }
 
 - (void)startParser {
-    //http://www.comptechdoc.org/independent/web/xml/guide/parts.xml
+    [parser cancel];
+    
     NSURL *url = [NSURL URLWithString:@"http://www.comptechdoc.org/independent/web/xml/guide/parts.xml"];
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"books" ofType:@"xml"];
     parser = [[MyXMLParser alloc] initWithUrl:url];
     
     parser.delegate = self;
@@ -35,6 +35,8 @@
 
 - (void)cancelParser {
     [parser cancel];
+    [parser release];
+    parser = nil;
     NSLog(@"%@ cancel parsing...", self.title);
 }
 
